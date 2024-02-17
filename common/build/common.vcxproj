@@ -54,84 +54,83 @@
     <ProjectGuid>{DBFBE277-5B8D-4258-B522-13146FD1E722}</ProjectGuid>
     <RootNamespace>common</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>MaskToolsCommon</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile-avs26-16bit|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release-no-boost|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release-no-boost-dualsign|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release-boost-dualsign|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile-avs26-16bit|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release-no-boost|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release-no-boost-dualsign|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release-boost-dualsign|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 8.0.props" />
-  </ImportGroup>
+  <Import Project="..\..\..\Common.props" />
+  <Import Project="..\..\..\cudaver.props" />
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='profile-avs26-16bit|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
@@ -264,7 +263,7 @@
       <PreprocessorDefinitions>ENABLE_CUDA;WIN32;_DEBUG;_LIB;DEBUG;_CRT_SECURE_NO_WARNINGS;FILTER_AVS_26;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <StructMemberAlignment>16Bytes</StructMemberAlignment>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <PrecompiledHeader>
@@ -272,13 +271,15 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <DisableSpecificWarnings>4505</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <OutputFile>../../bin/common_d.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <CodeGeneration>compute_61,sm_61;compute_35,sm_35</CodeGeneration>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" </AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -291,7 +292,7 @@
       <PreprocessorDefinitions>ENABLE_CUDA;WIN64;_AMD64_;_DEBUG;_LIB;DEBUG;_CRT_SECURE_NO_WARNINGS;FILTER_AVS_26;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <StructMemberAlignment>16Bytes</StructMemberAlignment>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <PrecompiledHeader>
@@ -299,13 +300,16 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <DisableSpecificWarnings>4505</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <OutputFile>../../bin/common_d.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <CodeGeneration>compute_61,sm_61;compute_35,sm_35</CodeGeneration>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" </AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
+      <TargetMachinePlatform>64</TargetMachinePlatform>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile-avs26-16bit|Win32'">
@@ -328,13 +332,15 @@
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <Cpp0xSupport>true</Cpp0xSupport>
       <DisableSpecificWarnings>4505</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <CodeGeneration>compute_61,sm_61;compute_35,sm_35</CodeGeneration>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" </AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release-no-boost|Win32'">
@@ -360,13 +366,15 @@
       <AssemblerOutput>NoListing</AssemblerOutput>
       <AssemblerListingLocation>$(IntDir)\asm\</AssemblerListingLocation>
       <DisableSpecificWarnings>4505</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <CodeGeneration>compute_61,sm_61;compute_35,sm_35</CodeGeneration>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" </AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -379,7 +387,7 @@
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <AdditionalIncludeDirectories>%BOOST_HOME%;$(SolutionDir)include;$(SolutionDir)common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_CUDA;MT_HAVE_BOOST_SPIRIT;WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;FILTER_AVS_26;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <StructMemberAlignment>16Bytes</StructMemberAlignment>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <PrecompiledHeader>
@@ -391,13 +399,16 @@
       <AssemblerOutput>NoListing</AssemblerOutput>
       <AssemblerListingLocation>$(IntDir)\asm\</AssemblerListingLocation>
       <DisableSpecificWarnings>4505</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <CodeGeneration>compute_61,sm_61;compute_35,sm_35</CodeGeneration>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" </AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <GenerateLineInfo>true</GenerateLineInfo>
+      <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release-no-boost-dualsign|Win32'">
@@ -423,13 +434,15 @@
       <AssemblerOutput>NoListing</AssemblerOutput>
       <AssemblerListingLocation>$(IntDir)\asm\</AssemblerListingLocation>
       <DisableSpecificWarnings>4505</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <CodeGeneration>compute_61,sm_61;compute_35,sm_35</CodeGeneration>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" </AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release-boost-dualsign|Win32'">
@@ -453,13 +466,15 @@
       <Cpp0xSupport>true</Cpp0xSupport>
       <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
       <DisableSpecificWarnings>4505</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <CodeGeneration>compute_61,sm_61;compute_35,sm_35</CodeGeneration>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" </AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile-avs26-16bit|x64'">
@@ -484,13 +499,16 @@
       <DebugInformationFormat>
       </DebugInformationFormat>
       <DisableSpecificWarnings>4505</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <CodeGeneration>compute_61,sm_61;compute_35,sm_35</CodeGeneration>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" </AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
+      <TargetMachinePlatform>64</TargetMachinePlatform>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release-no-boost|x64'">
@@ -518,13 +536,16 @@
       <AssemblerOutput>NoListing</AssemblerOutput>
       <AssemblerListingLocation>$(IntDir)\asm\</AssemblerListingLocation>
       <DisableSpecificWarnings>4505</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <CodeGeneration>compute_61,sm_61;compute_35,sm_35</CodeGeneration>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" </AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
+      <TargetMachinePlatform>64</TargetMachinePlatform>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -540,7 +561,7 @@
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <AdditionalIncludeDirectories>%BOOST_HOME%;$(SolutionDir)include;$(SolutionDir)common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_CUDA;MT_HAVE_BOOST_SPIRIT;WIN64;_AMD64_;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;FILTER_AVS_26;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <StructMemberAlignment>16Bytes</StructMemberAlignment>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <PrecompiledHeader>
@@ -549,13 +570,17 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AssemblerListingLocation>$(IntDir)\asm\</AssemblerListingLocation>
       <DisableSpecificWarnings>4505</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <CodeGeneration>compute_61,sm_61;compute_35,sm_35</CodeGeneration>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" </AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <GenerateLineInfo>true</GenerateLineInfo>
+      <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
+      <TargetMachinePlatform>64</TargetMachinePlatform>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release-no-boost-dualsign|x64'">
@@ -583,13 +608,16 @@
       <AssemblerOutput>NoListing</AssemblerOutput>
       <AssemblerListingLocation>$(IntDir)\asm\</AssemblerListingLocation>
       <DisableSpecificWarnings>4505</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <CodeGeneration>compute_61,sm_61;compute_35,sm_35</CodeGeneration>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" </AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
+      <TargetMachinePlatform>64</TargetMachinePlatform>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release-boost-dualsign|x64'">
@@ -614,13 +642,16 @@
       <DebugInformationFormat>
       </DebugInformationFormat>
       <DisableSpecificWarnings>4505</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <CodeGeneration>compute_61,sm_61;compute_35,sm_35</CodeGeneration>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" </AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
+      <TargetMachinePlatform>64</TargetMachinePlatform>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -647,7 +678,4 @@
     <CudaCompile Include="..\functions\functions_cuda.cu" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 8.0.targets" />
-  </ImportGroup>
 </Project>
