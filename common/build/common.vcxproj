@@ -278,7 +278,7 @@
       <OutputFile>../../bin/common_d.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550" -Wno-deprecated-gpu-targets</AdditionalOptions>
       <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
     </CudaCompile>
   </ItemDefinitionGroup>
@@ -307,7 +307,7 @@
       <OutputFile>../../bin/common_d.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550" -Wno-deprecated-gpu-targets</AdditionalOptions>
       <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
       <TargetMachinePlatform>64</TargetMachinePlatform>
     </CudaCompile>
@@ -339,7 +339,7 @@
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550" -Wno-deprecated-gpu-targets</AdditionalOptions>
       <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
     </CudaCompile>
   </ItemDefinitionGroup>
@@ -373,7 +373,7 @@
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550" -Wno-deprecated-gpu-targets</AdditionalOptions>
       <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
     </CudaCompile>
   </ItemDefinitionGroup>
@@ -406,8 +406,7 @@
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
-      <GenerateLineInfo>true</GenerateLineInfo>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550" -Wno-deprecated-gpu-targets</AdditionalOptions>
       <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
     </CudaCompile>
   </ItemDefinitionGroup>
@@ -441,7 +440,7 @@
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550" -Wno-deprecated-gpu-targets</AdditionalOptions>
       <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
     </CudaCompile>
   </ItemDefinitionGroup>
@@ -473,7 +472,7 @@
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550" -Wno-deprecated-gpu-targets</AdditionalOptions>
       <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
     </CudaCompile>
   </ItemDefinitionGroup>
@@ -506,7 +505,7 @@
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550" -Wno-deprecated-gpu-targets</AdditionalOptions>
       <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
       <TargetMachinePlatform>64</TargetMachinePlatform>
     </CudaCompile>
@@ -543,7 +542,7 @@
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550" -Wno-deprecated-gpu-targets</AdditionalOptions>
       <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
       <TargetMachinePlatform>64</TargetMachinePlatform>
     </CudaCompile>
@@ -577,8 +576,7 @@
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
-      <GenerateLineInfo>true</GenerateLineInfo>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550" -Wno-deprecated-gpu-targets</AdditionalOptions>
       <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
       <TargetMachinePlatform>64</TargetMachinePlatform>
     </CudaCompile>
@@ -615,7 +613,7 @@
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550" -Wno-deprecated-gpu-targets</AdditionalOptions>
       <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
       <TargetMachinePlatform>64</TargetMachinePlatform>
     </CudaCompile>
@@ -649,7 +647,7 @@
       <OutputFile>$(OutDir)common.lib</OutputFile>
     </Lib>
     <CudaCompile>
-      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550"</AdditionalOptions>
+      <AdditionalOptions>-Xcompiler "/wd 4819" -Xcompiler  "/wd 4505" -std=c++17 -Xcudafe "--display_error_number --diag_suppress=177 --diag_suppress=68 --diag_suppress=550" -Wno-deprecated-gpu-targets</AdditionalOptions>
       <CodeGeneration>$(CUDA_CODE_GEN)</CodeGeneration>
       <TargetMachinePlatform>64</TargetMachinePlatform>
     </CudaCompile>
