@@ -62,7 +62,7 @@ static inline Word minimumThresholded(Word a1, Word a2, Word a3, Word a4, Word a
     return static_cast<Word>(nMinimum);
 }
 
-extern "C" static MT_FORCEINLINE __m128i inpand_operator_sse4_16(__m128i a, __m128i b) {
+static RGY_TARGET("sse4.1") MT_FORCEINLINE __m128i inpand_operator_sse4_16(__m128i a, __m128i b) {
   return _mm_min_epu16(a, b);
 }
 

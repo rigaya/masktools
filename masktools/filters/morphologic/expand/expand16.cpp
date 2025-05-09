@@ -62,7 +62,7 @@ static inline Word maximumThresholded(Word a1, Word a2, Word a3, Word a4, Word a
     return static_cast<Word>(nMaximum);
 }
 
-extern "C" static MT_FORCEINLINE __m128i expand_operator_sse4_16(__m128i a, __m128i b) {
+static RGY_TARGET("sse4.1") MT_FORCEINLINE __m128i expand_operator_sse4_16(__m128i a, __m128i b) {
   return _mm_max_epu16(a, b);
 }
 

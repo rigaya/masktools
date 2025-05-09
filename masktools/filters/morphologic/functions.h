@@ -69,12 +69,12 @@ void generic_c(Byte *pDst, ptrdiff_t nDstPitch, const Byte *pSrc, ptrdiff_t nSrc
    pDst[nWidth-1] = op(pSrcp[nWidth-2], pSrcp[nWidth-1], pSrcp[nWidth-1], pSrc[nWidth-2], pSrc[nWidth-1], pSrc[nWidth-1], pSrc[nWidth-2], pSrc[nWidth-1], pSrc[nWidth-1], nMaxDeviation);
 }
 
-extern "C" static MT_FORCEINLINE __m128i limit_up_sse2(__m128i source, __m128i sum, __m128i deviation) {
+extern "C" MT_FORCEINLINE __m128i limit_up_sse2(__m128i source, __m128i sum, __m128i deviation) {
     auto limit = _mm_adds_epu8(source, deviation);
     return _mm_min_epu8(limit, _mm_max_epu8(source, sum));
 }
 
-extern "C" static MT_FORCEINLINE __m128i limit_down_sse2(__m128i source, __m128i sum, __m128i deviation) {
+extern "C" MT_FORCEINLINE __m128i limit_down_sse2(__m128i source, __m128i sum, __m128i deviation) {
     auto limit = _mm_subs_epu8(source, deviation);
     return _mm_max_epu8(limit, _mm_min_epu8(source, sum));
 }
@@ -225,7 +225,7 @@ static void xxpand_sse2_vertical(Byte *pDst, ptrdiff_t nDstPitch, const Byte *pS
 
 /* Horizontal mt_xxpand */
 
-extern "C" static MT_FORCEINLINE Byte expand_c_horizontal_core(Byte left, Byte center, Byte right, Byte max_dev) {
+static MT_FORCEINLINE Byte expand_c_horizontal_core(Byte left, Byte center, Byte right, Byte max_dev) {
     Byte ma = left;
 
     if (center > ma) ma = center;
@@ -235,7 +235,7 @@ extern "C" static MT_FORCEINLINE Byte expand_c_horizontal_core(Byte left, Byte c
     return static_cast<Byte>(ma);
 }
 
-extern "C" static MT_FORCEINLINE Byte inpand_c_horizontal_core(Byte left, Byte center, Byte right, Byte max_dev) {
+static MT_FORCEINLINE Byte inpand_c_horizontal_core(Byte left, Byte center, Byte right, Byte max_dev) {
     Byte mi = left;
 
     if (center < mi) mi = center;

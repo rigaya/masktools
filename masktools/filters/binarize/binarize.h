@@ -244,7 +244,7 @@ public:
 
    static Signature filter_signature()
    {
-      Signature signature = "kmt_binarize";
+      Signature signature("kmt_binarize");
 
       signature.add( Parameter( TYPE_CLIP, "", false) );
       signature.add( Parameter( 128.0f, "threshold", true) ); // bit depth dependent, see above.

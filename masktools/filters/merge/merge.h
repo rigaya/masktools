@@ -363,7 +363,7 @@ public:
 
    static Signature filter_signature()
    {
-      Signature signature = "kmt_merge";
+      Signature signature("kmt_merge");
 
       signature.add( Parameter( TYPE_CLIP, "", false) );
       signature.add( Parameter( TYPE_CLIP, "", false) );

@@ -10,8 +10,10 @@ namespace Filtering {
 //because ICC is smart enough on its own and force inlining actually makes it slower
 #ifdef __INTEL_COMPILER
 #define MT_FORCEINLINE inline
-#else
+#elif _MSC_VER
 #define MT_FORCEINLINE __forceinline
+#else
+#define MT_FORCEINLINE inline
 #endif
 
 #define USE_MOVPS
@@ -96,7 +98,7 @@ static MT_FORCEINLINE void simd_store_ps(T *ptr, __m128 value) {
 }
 
 template<MemoryMode mem_mode, typename T>
-static MT_FORCEINLINE __m256i simd256_load_si256(const T* ptr) {
+static RGY_TARGET("avx") MT_FORCEINLINE __m256i simd256_load_si256(const T* ptr) {
 #ifdef USE_MOVPS
   if (mem_mode == MemoryMode::SSE2_ALIGNED) {
     return _mm256_castps_si256(_mm256_load_ps(reinterpret_cast<const float*>(ptr)));
@@ -115,7 +117,7 @@ static MT_FORCEINLINE __m256i simd256_load_si256(const T* ptr) {
 }
 
 template<MemoryMode mem_mode, typename T>
-static MT_FORCEINLINE __m256 simd256_load_ps(const T* ptr) {
+static RGY_TARGET("avx") MT_FORCEINLINE __m256 simd256_load_ps(const T* ptr) {
 #ifdef USE_MOVPS
   if (mem_mode == MemoryMode::SSE2_ALIGNED) {
     return _mm256_load_ps(reinterpret_cast<const float*>(ptr));
@@ -134,7 +136,7 @@ static MT_FORCEINLINE __m256 simd256_load_ps(const T* ptr) {
 }
 
 template<MemoryMode mem_mode, typename T>
-static MT_FORCEINLINE __m256 simd256_128_load_ps(const T* ptr) {
+static RGY_TARGET("avx") MT_FORCEINLINE __m256 simd256_128_load_ps(const T* ptr) {
   if (mem_mode == MemoryMode::SSE2_ALIGNED) {
     return _mm256_loadu2_m128(reinterpret_cast<const float*>(ptr) + 4, reinterpret_cast<const float*>(ptr));
   }
@@ -144,7 +146,7 @@ static MT_FORCEINLINE __m256 simd256_128_load_ps(const T* ptr) {
 }
 
 template<MemoryMode mem_mode, typename T>
-static MT_FORCEINLINE void simd256_store_si256(T *ptr, __m256i value) {
+static RGY_TARGET("avx") MT_FORCEINLINE void simd256_store_si256(T *ptr, __m256i value) {
 #ifdef USE_MOVPS
   if (mem_mode == MemoryMode::SSE2_ALIGNED) {
     _mm256_store_ps(reinterpret_cast<float*>(ptr), _mm256_castsi256_ps(value));
@@ -163,7 +165,7 @@ static MT_FORCEINLINE void simd256_store_si256(T *ptr, __m256i value) {
 }
 
 template<MemoryMode mem_mode, typename T>
-static MT_FORCEINLINE void simd256_store_ps(T *ptr, __m256 value) {
+static RGY_TARGET("avx") MT_FORCEINLINE void simd256_store_ps(T *ptr, __m256 value) {
 #ifdef USE_MOVPS
   if (mem_mode == MemoryMode::SSE2_ALIGNED) {
     _mm256_store_ps(reinterpret_cast<float*>(ptr), value);
@@ -186,10 +188,12 @@ static MT_FORCEINLINE void simd256_store_ps(T *ptr, __m256 value) {
 static MT_FORCEINLINE int simd_bit_scan_forward(int value) {
 #ifdef __INTEL_COMPILER
     return _bit_scan_forward(value);
-#else
+#elif defined(_MSC_VER)
     unsigned long index;
     _BitScanForward(&index, value);
     return index;
+#else
+    return __builtin_ctz(value);
 #endif
 }
 
@@ -250,30 +254,6 @@ static MT_FORCEINLINE __m256i load_one_to_right_si256(const Byte *ptr) {
 }
 
 template<Border border_mode, MemoryMode mem_mode>
-static MT_FORCEINLINE __m256i load16_one_to_left_si256(const Byte *ptr) {
-  if (border_mode == Border::Left) {
-    auto lo128 = load16_one_to_left<border_mode, mem_mode>(ptr); // really left!
-    auto hi128 = simd_load_si128<MemoryMode::SSE2_UNALIGNED>(ptr + 16 - 2);
-    return _mm256_set_m128i(hi128, lo128);
-  }
-  else {
-    return simd256_load_si256<MemoryMode::SSE2_UNALIGNED>(ptr - 2);
-  }
-}
-
-template<Border border_mode, MemoryMode mem_mode>
-static MT_FORCEINLINE __m256i load16_one_to_right_si256(const Byte *ptr) {
-  if (border_mode == Border::Right) {
-    auto lo128 = simd_load_si128<MemoryMode::SSE2_UNALIGNED>(ptr + 2);
-    auto hi128 = load16_one_to_right<border_mode, mem_mode>(ptr + 16); // really right!
-    return _mm256_set_m128i(hi128, lo128);
-  }
-  else {
-    return simd256_load_si256<MemoryMode::SSE2_UNALIGNED>(ptr + 2);
-  }
-}
-
-template<Border border_mode, MemoryMode mem_mode>
 static MT_FORCEINLINE __m128i load16_one_to_left(const Byte *ptr) {
   if (border_mode == Border::Left) {
     auto mask_left = _mm_setr_epi8(0xFF, 0xFF, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00);
@@ -286,6 +266,18 @@ static MT_FORCEINLINE __m128i load16_one_to_left(const Byte *ptr) {
 }
 
 template<Border border_mode, MemoryMode mem_mode>
+static MT_FORCEINLINE __m256i load16_one_to_left_si256(const Byte *ptr) {
+  if (border_mode == Border::Left) {
+    auto lo128 = load16_one_to_left<border_mode, mem_mode>(ptr); // really left!
+    auto hi128 = simd_load_si128<MemoryMode::SSE2_UNALIGNED>(ptr + 16 - 2);
+    return _mm256_set_m128i(hi128, lo128);
+  }
+  else {
+    return simd256_load_si256<MemoryMode::SSE2_UNALIGNED>(ptr - 2);
+  }
+}
+
+template<Border border_mode, MemoryMode mem_mode>
 static MT_FORCEINLINE __m128i load16_one_to_right(const Byte *ptr) {
   if (border_mode == Border::Right) {
     auto mask_right = _mm_setr_epi8(00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 0xFF, 0xFF);
@@ -294,6 +286,18 @@ static MT_FORCEINLINE __m128i load16_one_to_right(const Byte *ptr) {
   }
   else {
     return simd_load_si128<MemoryMode::SSE2_UNALIGNED>(ptr + 2);
+  }
+}
+
+template<Border border_mode, MemoryMode mem_mode>
+static MT_FORCEINLINE __m256i load16_one_to_right_si256(const Byte *ptr) {
+  if (border_mode == Border::Right) {
+    auto lo128 = simd_load_si128<MemoryMode::SSE2_UNALIGNED>(ptr + 2);
+    auto hi128 = load16_one_to_right<border_mode, mem_mode>(ptr + 16); // really right!
+    return _mm256_set_m128i(hi128, lo128);
+  }
+  else {
+    return simd256_load_si256<MemoryMode::SSE2_UNALIGNED>(ptr + 2);
   }
 }
 
@@ -352,7 +356,7 @@ static MT_FORCEINLINE __m128i simd_movehl_si128(const __m128i &a, const __m128i 
 }
 
 template<CpuFlags flags>
-static MT_FORCEINLINE __m128i simd_blend_epi8(__m128i const &selector, __m128i const &a, __m128i const &b) {
+static RGY_TARGET("sse4.1") MT_FORCEINLINE __m128i simd_blend_epi8(__m128i const &selector, __m128i const &a, __m128i const &b) {
   if (flags >= CPU_SSE4_1) {
     return _mm_blendv_epi8(b, a, selector);
   }
@@ -361,13 +365,13 @@ static MT_FORCEINLINE __m128i simd_blend_epi8(__m128i const &selector, __m128i c
   }
 }
 
-static MT_FORCEINLINE __m256i simd256_blend_epi8(__m256i const &selector, __m256i const &a, __m256i const &b) {
+static RGY_TARGET("avx2") MT_FORCEINLINE __m256i simd256_blend_epi8(__m256i const &selector, __m256i const &a, __m256i const &b) {
   return _mm256_blendv_epi8(b, a, selector);
 }
 
 // another blendv, good param order
 template<CpuFlags flags>
-static MT_FORCEINLINE __m128i simd_blendv_epi8(__m128i x, __m128i y, __m128i mask)
+static RGY_TARGET("sse4.1") MT_FORCEINLINE __m128i simd_blendv_epi8(__m128i x, __m128i y, __m128i mask)
 {
   if (flags >= CPU_SSE4_1) {
     return _mm_blendv_epi8(x, y, mask);
@@ -379,7 +383,7 @@ static MT_FORCEINLINE __m128i simd_blendv_epi8(__m128i x, __m128i y, __m128i mas
 }
 
 template<CpuFlags flags>
-static MT_FORCEINLINE __m128 simd_blendv_ps(__m128 x, __m128 y, __m128 mask)
+static RGY_TARGET("sse4.1") MT_FORCEINLINE __m128 simd_blendv_ps(__m128 x, __m128 y, __m128 mask)
 {
   if (flags >= CPU_SSE4_1) {
     return _mm_blendv_ps(x, y, mask);
@@ -390,12 +394,12 @@ static MT_FORCEINLINE __m128 simd_blendv_ps(__m128 x, __m128 y, __m128 mask)
   }
 }
 
-static MT_FORCEINLINE __m256 simd256_blendv_ps(__m256 x, __m256 y, __m256 mask)
+static RGY_TARGET("avx") MT_FORCEINLINE __m256 simd256_blendv_ps(__m256 x, __m256 y, __m256 mask)
 {
   return _mm256_blendv_ps(x, y, mask);
 }
 
-static MT_FORCEINLINE __m256i simd256_blendv_epi8(__m256i x, __m256i y, __m256i mask)
+static RGY_TARGET("avx2") MT_FORCEINLINE __m256i simd256_blendv_epi8(__m256i x, __m256i y, __m256i mask)
 {
   return _mm256_blendv_epi8(x, y, mask);
 }
@@ -410,7 +414,7 @@ static MT_FORCEINLINE __m128i threshold_sse2(const __m128i &value, const __m128i
     return _mm_or_si128(result, high);
 }
 
-static MT_FORCEINLINE __m256i threshold_avx2(const __m256i &value, const __m256i &lowThresh, const __m256i &highThresh, const __m256i &v128) {
+static RGY_TARGET("avx2") MT_FORCEINLINE __m256i threshold_avx2(const __m256i &value, const __m256i &lowThresh, const __m256i &highThresh, const __m256i &v128) {
   auto sat = _mm256_sub_epi8(value, v128);
   auto low = _mm256_cmpgt_epi8(sat, lowThresh);
   auto high = _mm256_cmpgt_epi8(sat, highThresh);
@@ -432,7 +436,7 @@ static MT_FORCEINLINE __m128i threshold16_sse2(const __m128i &value, const __m12
 
 //  thresholds are decreased by half range in order to do signed comparison
 template<int bits_per_pixel>
-static MT_FORCEINLINE __m256i threshold16_avx2(const __m256i &value, const __m256i &lowThresh, const __m256i &highThresh, const __m256i &vHalf, const __m256i &maxMask) {
+static RGY_TARGET("avx2") MT_FORCEINLINE __m256i threshold16_avx2(const __m256i &value, const __m256i &lowThresh, const __m256i &highThresh, const __m256i &vHalf, const __m256i &maxMask) {
   auto sat = _mm256_sub_epi16(value, vHalf);
   auto low = _mm256_cmpgt_epi16(sat, lowThresh);
   auto high = _mm256_cmpgt_epi16(sat, highThresh);
@@ -455,11 +459,11 @@ static MT_FORCEINLINE __m128 threshold32_sse2(const __m128 &value, const __m128 
   return result;
 }
 
-static MT_FORCEINLINE __m256 _mm256_cmpgt_ps(__m256 a, __m256 b) {
+static RGY_TARGET("avx") MT_FORCEINLINE __m256 _mm256_cmpgt_ps(__m256 a, __m256 b) {
   return _mm256_cmp_ps(a, b, _CMP_NLE_US); // NLE = GT
 }
 
-static MT_FORCEINLINE __m256 threshold32_avx(const __m256 &value, const __m256 &lowThresh, const __m256 &highThresh) {
+static RGY_TARGET("avx") MT_FORCEINLINE __m256 threshold32_avx(const __m256 &value, const __m256 &lowThresh, const __m256 &highThresh) {
   // create final mask 0.0 or 1.0 or x if between
   // value <= low ? 0.0f : value > high ? 1.0 : x
   auto tOne = _mm256_set1_ps(1.0f);
@@ -472,7 +476,7 @@ static MT_FORCEINLINE __m256 threshold32_avx(const __m256 &value, const __m256 &
 }
 
 template<CpuFlags flags>
-static MT_FORCEINLINE __m128i simd_mullo_epi32(__m128i &a, __m128i &b) {
+static RGY_TARGET("sse4.1") MT_FORCEINLINE __m128i simd_mullo_epi32(__m128i &a, __m128i &b) {
     if (flags >= CPU_SSE4_1) {
         return _mm_mullo_epi32(a, b);
     } else {
@@ -486,7 +490,7 @@ static MT_FORCEINLINE __m128i simd_mullo_epi32(__m128i &a, __m128i &b) {
     }
 }
 
-static MT_FORCEINLINE __m256i simd256_mullo_epi32(__m256i &a, __m256i &b) {
+static RGY_TARGET("avx2") MT_FORCEINLINE __m256i simd256_mullo_epi32(__m256i &a, __m256i &b) {
   return _mm256_mullo_epi32(a, b);
 }
 
@@ -527,7 +531,7 @@ static MT_FORCEINLINE __m128i _MM_CMPLE_EPU16(__m128i x, __m128i y)
 }
 
 // non-existant in simd
-static MT_FORCEINLINE __m256i _MM256_CMPLE_EPU16(__m256i x, __m256i y)
+static RGY_TARGET("avx2") MT_FORCEINLINE __m256i _MM256_CMPLE_EPU16(__m256i x, __m256i y)
 {
   // Returns 0xFFFF where x <= y:
   return _mm256_cmpeq_epi16(_mm256_subs_epu16(x, y), _mm256_setzero_si256());
@@ -535,7 +539,7 @@ static MT_FORCEINLINE __m256i _MM256_CMPLE_EPU16(__m256i x, __m256i y)
 
 // SSE2 version of SSE4.1-only _mm_max_epu16
 template<CpuFlags flags>
-static MT_FORCEINLINE __m128i simd_max_epu16(__m128i x, __m128i y)
+static RGY_TARGET("sse4.1") MT_FORCEINLINE __m128i simd_max_epu16(__m128i x, __m128i y)
 {
   if (flags >= CPU_SSE4_1) {
     return _mm_max_epu16(x, y);
@@ -547,7 +551,7 @@ static MT_FORCEINLINE __m128i simd_max_epu16(__m128i x, __m128i y)
 
 // SSE2 version of SSE4.1-only _mm_min_epu16
 template<CpuFlags flags>
-static MT_FORCEINLINE __m128i simd_min_epu16(__m128i x, __m128i y)
+static RGY_TARGET("sse4.1") MT_FORCEINLINE __m128i simd_min_epu16(__m128i x, __m128i y)
 {
   if (flags >= CPU_SSE4_1) {
     return _mm_min_epu16(x, y);
@@ -558,7 +562,7 @@ static MT_FORCEINLINE __m128i simd_min_epu16(__m128i x, __m128i y)
 }
 
 template<CpuFlags flags>
-static MT_FORCEINLINE __m128i simd_packus_epi32(__m128i &a, __m128i &b) {
+static RGY_TARGET("sse4.1") MT_FORCEINLINE __m128i simd_packus_epi32(__m128i &a, __m128i &b) {
   if (flags >= CPU_SSE4_1) {
     return _mm_packus_epi32(a, b);
   }
@@ -579,13 +583,13 @@ static MT_FORCEINLINE __m128 simd_abs_diff_ps(__m128 a, __m128 b) {
   return _mm_and_ps(_mm_sub_ps(a, b), absmask);
 }
 
-static MT_FORCEINLINE __m256 simd256_abs_ps(__m256 a) {
+static RGY_TARGET("avx") MT_FORCEINLINE __m256 simd256_abs_ps(__m256 a) {
   // maybe not optimal, mask may be generated 
   const __m256 absmask = _mm256_castsi256_ps(_mm256_set1_epi32(~(1 << 31))); // 0x7FFFFFFF
   return _mm256_and_ps(a, absmask);
 }
 
-static MT_FORCEINLINE __m256 simd256_abs_diff_ps(__m256 a, __m256 b) {
+static RGY_TARGET("avx") MT_FORCEINLINE __m256 simd256_abs_diff_ps(__m256 a, __m256 b) {
   // maybe not optimal
   const __m256 absmask = _mm256_castsi256_ps(_mm256_set1_epi32(~(1 << 31))); // 0x7FFFFFFF
   return _mm256_and_ps(_mm256_sub_ps(a, b), absmask);
@@ -610,7 +614,7 @@ static MT_FORCEINLINE void write_word_stacked_simd(Byte *pMsb, Byte *pLsb, int x
 
 // simulate real 256 bit byte-shift (not 2x128 lanes)
 template<BYTE shiftcount>
-MT_FORCEINLINE __m256i _MM256_SLLI_SI256(__m256i a)
+RGY_TARGET("avx2") MT_FORCEINLINE __m256i _MM256_SLLI_SI256(__m256i a)
 {
   if (shiftcount == 0)
     return a;
@@ -625,7 +629,7 @@ MT_FORCEINLINE __m256i _MM256_SLLI_SI256(__m256i a)
 
 // simulate real 256 bit byte-shift (not 2x128 lanes)
 template<BYTE shiftcount>
-MT_FORCEINLINE __m256i _MM256_SRLI_SI256(__m256i a)
+RGY_TARGET("avx2") MT_FORCEINLINE __m256i _MM256_SRLI_SI256(__m256i a)
 {
   if (shiftcount == 0)
     return a;
@@ -640,4 +644,4 @@ MT_FORCEINLINE __m256i _MM256_SRLI_SI256(__m256i a)
 
 }
 
-#endif __Mt_SIMD_H__
+#endif //__Mt_SIMD_H__

@@ -294,6 +294,7 @@ public:
                 case COPY_SECOND: operators[i] = COPY; break;
                 case COPY_THIRD: operators[i] = COPY_SECOND; break;
                 case COPY_FOURTH: operators[i] = COPY_THIRD; break;
+                default: break;
                 }
             }
         }
@@ -332,7 +333,7 @@ public:
             error = "masktools: unsupported colorspace, use Y8, YV12, YV16, YV24, YV411, greyscale, YUV(A)xxxP10-16/S, Planar RGB(A)";
     }
 
-    void process_plane(int n, const Plane<Byte> &output_plane, int nPlane, const Constraint constraints[4], const Frame<const byte> frames[4], PNeoEnv env)
+    void process_plane(int n, const Plane<Byte> &output_plane, int nPlane, const Constraint constraints[4], const Frame<const Byte> frames[4], PNeoEnv env)
     {
         bool isCUDA = ::IsCUDA(env);
         bool isStacked = parameters["stacked"].is_defined() && parameters["stacked"].toBool();

@@ -127,7 +127,7 @@ public:
 
     static Signature filter_signature()
     {
-        Signature signature = "kmt_adddiff";
+        Signature signature("kmt_adddiff");
 
         signature.add(Parameter(TYPE_CLIP, "", false));
         signature.add(Parameter(TYPE_CLIP, "", false));

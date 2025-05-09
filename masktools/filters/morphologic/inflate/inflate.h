@@ -48,9 +48,9 @@ public:
     }
   }
 
-  static Signature Inflate::filter_signature()
+  static Signature filter_signature()
   {
-    Signature signature = "kmt_inflate";
+    Signature signature("kmt_inflate");
 
     signature.add(Parameter(TYPE_CLIP, "", false));
     signature.add(Parameter(TYPE_FLOAT, "thY", true)); // overwritten to default 255..65535 in morphologic.h

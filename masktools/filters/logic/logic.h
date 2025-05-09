@@ -451,7 +451,7 @@ public:
 
   static Signature filter_signature()
   {
-    Signature signature = "kmt_logic";
+    Signature signature("kmt_logic");
 
     signature.add(Parameter(TYPE_CLIP, "", false));
     signature.add(Parameter(TYPE_CLIP, "", false));

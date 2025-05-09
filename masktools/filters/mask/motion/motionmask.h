@@ -209,7 +209,7 @@ public:
 
    static Signature filter_signature()
    {
-      Signature signature = "kmt_motion";
+      Signature signature("kmt_motion");
 
       signature.add(Parameter(TYPE_CLIP, "", false));
       signature.add(Parameter(10.0f, "thY1", true));

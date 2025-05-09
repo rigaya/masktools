@@ -1,4 +1,5 @@
 #include "edgemask.h"
+#include "../functions.h"
 #include "../functions_avx2.h"
 #include "../../../common/simd.h"
 

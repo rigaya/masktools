@@ -661,7 +661,7 @@ public:
 
    static Signature filter_signature()
    {
-      Signature signature = "kmt_edge"; // common for any bit depths
+      Signature signature("kmt_edge"); // common for any bit depths
 
       signature.add(Parameter(TYPE_CLIP, "", false));
       signature.add(Parameter(String("sobel"), "mode", false));

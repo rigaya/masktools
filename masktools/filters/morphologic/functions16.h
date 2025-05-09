@@ -119,19 +119,20 @@ struct MorphologicProcessor {
 };
 
 //-----------------------------------------------------------------
-extern "C" static MT_FORCEINLINE __m128i limit_up_sse4_16(__m128i source, __m128i sum, __m128i deviation) {
+
+static RGY_TARGET("sse4.1") MT_FORCEINLINE __m128i limit_up_sse4_16(__m128i source, __m128i sum, __m128i deviation) {
   auto limit = _mm_adds_epu16(source, deviation);
   return _mm_min_epu16(limit, _mm_max_epu16(source, sum));
 }
 
-extern "C" static MT_FORCEINLINE __m128i limit_down_sse4_16(__m128i source, __m128i sum, __m128i deviation) {
+static RGY_TARGET("sse4.1") MT_FORCEINLINE __m128i limit_down_sse4_16(__m128i source, __m128i sum, __m128i deviation) {
   auto limit = _mm_subs_epu16(source, deviation);
   return _mm_max_epu16(limit, _mm_min_epu16(source, sum));
 }
 
 
 template<Border borderMode, Limit16 limit, MemoryMode mem_mode>
-static MT_FORCEINLINE void process_line_xxflate_16(Byte *pDst, const Byte *pSrcp, const Byte *pSrc, const Byte *pSrcn, const __m128i &maxDeviation, int byte_width) {
+static RGY_TARGET("sse4.1") MT_FORCEINLINE void process_line_xxflate_16(Byte *pDst, const Byte *pSrcp, const Byte *pSrc, const Byte *pSrcn, const __m128i &maxDeviation, int byte_width) {
   auto zero = _mm_setzero_si128();
   for (int x = 0; x < byte_width; x += 16) {
     auto up_left = load16_one_to_left<borderMode, mem_mode>(pSrcp + x);
@@ -282,7 +283,7 @@ static void xxpand_sse4_vertical_16(Word *pDst16, ptrdiff_t nDstPitch, const Wor
 
 /* Horizontal mt_xxpand */
 
-extern "C" static MT_FORCEINLINE Word expand_c_horizontal_core_16(Word left, Word center, Word right, Word max_dev) {
+static MT_FORCEINLINE Word expand_c_horizontal_core_16(Word left, Word center, Word right, Word max_dev) {
   Word ma = left;
 
   if (center > ma) ma = center;
@@ -292,7 +293,7 @@ extern "C" static MT_FORCEINLINE Word expand_c_horizontal_core_16(Word left, Wor
   return static_cast<Word>(ma); // todo bits_per_pixel template????
 }
 
-extern "C" static MT_FORCEINLINE Word inpand_c_horizontal_core_16(Word left, Word center, Word right, Word max_dev) {
+static MT_FORCEINLINE Word inpand_c_horizontal_core_16(Word left, Word center, Word right, Word max_dev) {
   Word mi = left;
 
   if (center < mi) mi = center;

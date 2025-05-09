@@ -1,3 +1,5 @@
+
+#if defined(_WIN32) || defined(_WIN64)
 #define NOMINMAX
 #if defined(FILTER_AVS_25)
 #include "../../../avs2x/avisynth-2_5.h"
@@ -7,6 +9,10 @@
 #pragma warning(disable:4100) // disable possible loss of data conversion
 #include <avisynth.h>
 #pragma warning( pop )
+#endif
+#else
+#include "avisynth.h"
+#include "rgy_osdep.h"
 #endif
 #include "../../../common/utils/utils.h"
 #include "../../helpers/forms/forms.h"

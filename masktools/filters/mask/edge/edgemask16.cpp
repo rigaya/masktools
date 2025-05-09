@@ -6,6 +6,10 @@ using namespace Filtering;
 
 namespace Filtering { namespace MaskTools { namespace Filters { namespace Mask { namespace Edge {
 
+#ifndef INT_MIN
+#define INT_MIN (-2147483648)
+#endif
+
 template<int bits_per_pixel>
 inline Word convolution(Word a11, Word a21, Word a31, Word a12, Word a22, Word a32, Word a13, Word a23, Word a33, const Short matrix[10], int nLowThreshold, int nHighThreshold)
 {
@@ -125,7 +129,7 @@ void mask16_t(Word *pDst, ptrdiff_t nDstPitch, const Word *pSrc, ptrdiff_t nSrcP
 }
 
 template <CpuFlags flags>
-static MT_FORCEINLINE __m128i simd_packed_abs_epi32(__m128i a, __m128i b) {
+static RGY_TARGET("sse4.1") MT_FORCEINLINE __m128i simd_packed_abs_epi32(__m128i a, __m128i b) {
     if (flags >= CPU_SSE4_1) {
         auto absa = _mm_abs_epi32(a);
         auto absb = _mm_abs_epi32(b);
@@ -142,7 +146,7 @@ static MT_FORCEINLINE __m128i simd_packed_abs_epi32(__m128i a, __m128i b) {
 }
 
 template <CpuFlags flags>
-static MT_FORCEINLINE __m128i simd_abs_diff_epu32(__m128i a, __m128i b) {
+static RGY_TARGET("sse4.1") MT_FORCEINLINE __m128i simd_abs_diff_epu32(__m128i a, __m128i b) {
   if (flags >= CPU_SSE4_1) {
     return _mm_sub_epi32(_mm_max_epu32(a, b), _mm_min_epu32(a, b));
   }
@@ -162,16 +166,19 @@ static MT_FORCEINLINE __m128i simd_abs_diff_epu32(__m128i a, __m128i b) {
 
 
 template <CpuFlags flags>
-static MT_FORCEINLINE __m128i simd_abs_diff_epi32(__m128i a, __m128i b) {
+static RGY_TARGET("ssse3") MT_FORCEINLINE __m128i simd_abs_diff_epi32(__m128i a, __m128i b) {
   if (flags >= CPU_SSSE3) {
     auto diff = _mm_sub_epi32(a, b); // not correct, todo
     return _mm_abs_epi32(diff);
   }
   else {
-    auto x = simd_min_ep
-    auto gt = _mm_subs_epu32(a, b);
-    auto lt = _mm_subs_epu32(b, a);
-    return _mm_add_epi32(gt, lt);
+    auto diff = _mm_sub_epi32(a, b); // not correct, todo
+    // sse2 emulation of _mm_abs_epi32()
+    __m128i mask = _mm_cmplt_epi32(diff, _mm_setzero_si128()); // FFFF   where diff < 0
+    diff = _mm_xor_si128(diff, mask);                         // Invert where diff < 0
+    mask = _mm_srli_epi32(mask, 31);                        // 0001   where a < 0
+    diff = _mm_add_epi32(a, mask);                             // Add 1  where a < 0
+    return diff;
   }
 }
 

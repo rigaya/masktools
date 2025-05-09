@@ -159,7 +159,7 @@ public:
 
     static Signature filter_signature()
     {
-        Signature signature = "kmt_clamp";
+        Signature signature("kmt_clamp");
 
         signature.add(Parameter(TYPE_CLIP, "", false));
         signature.add(Parameter(TYPE_CLIP, "", false));

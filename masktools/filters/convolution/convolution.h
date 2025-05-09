@@ -196,7 +196,7 @@ public:
 
    static Signature filter_signature()
    {
-      Signature signature = "kmt_convolution";
+      Signature signature("kmt_convolution");
 
       signature.add(Parameter(TYPE_CLIP, "", false));
       signature.add(Parameter(String("1 1 1"), "horizontal", false));

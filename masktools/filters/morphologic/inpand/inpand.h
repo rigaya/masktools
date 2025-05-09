@@ -158,9 +158,9 @@ public:
     }
   }
 
-  static Signature Inpand::filter_signature()
+  static Signature filter_signature()
   {
-    Signature signature = "kmt_inpand";
+    Signature signature("kmt_inpand");
 
     signature.add(Parameter(TYPE_CLIP, "", false));
     signature.add(Parameter(TYPE_FLOAT, "thY", true)); // overwritten to default 255..65535 in morphologic.h

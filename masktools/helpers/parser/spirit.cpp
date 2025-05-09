@@ -2,8 +2,7 @@
 #include "../../../common/parser/parser.h"
 
 /* conditional compilation */
-//#ifdef MT_HAVE_BOOST_SPIRIT
-#if 1
+#ifdef MT_HAVE_BOOST_SPIRIT
 // Hint:
 // http://www.boost.org/doc/libs/1_48_0/libs/spirit/doc/html/spirit/what_s_new/spirit_1_x.html
 // 1.) download full boost e.g.: boost_1_66_0.7z

@@ -404,7 +404,7 @@ public:
 
    static Signature filter_signature()
    {
-      Signature signature = "kmt_luts";
+      Signature signature("kmt_luts");
 
       signature.add( Parameter( TYPE_CLIP, "", false ) );
       signature.add( Parameter( TYPE_CLIP, "", false) );

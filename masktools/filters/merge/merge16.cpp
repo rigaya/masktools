@@ -26,7 +26,7 @@ MT_FORCEINLINE static Word merge16_core_c(Word dst, Word src, Word mask) {
 }
 
 template <CpuFlags flags>
-MT_FORCEINLINE static __m128i get_single_mask_value_420(const __m128i &row1_lo, const __m128i &row1_hi, const __m128i &row2_lo, const __m128i &row2_hi) {
+RGY_TARGET("ssse3") MT_FORCEINLINE static __m128i get_single_mask_value_420(const __m128i &row1_lo, const __m128i &row1_hi, const __m128i &row2_lo, const __m128i &row2_hi) {
     auto avg_lo = _mm_avg_epu16(row1_lo, row2_lo);
     auto avg_hi = _mm_avg_epu16(row1_hi, row2_hi);
 
@@ -53,7 +53,7 @@ MT_FORCEINLINE static __m128i get_single_mask_value_420(const __m128i &row1_lo, 
 }
 
 template <CpuFlags flags>
-MT_FORCEINLINE static __m128i get_single_mask_value_422(const __m128i &row1_lo, const __m128i &row1_hi) {
+RGY_TARGET("ssse3") MT_FORCEINLINE static __m128i get_single_mask_value_422(const __m128i &row1_lo, const __m128i &row1_hi) {
   auto row1_lo_sh = _mm_srli_si128(row1_lo, 2);
   auto row1_hi_sh = _mm_srli_si128(row1_hi, 2);
 

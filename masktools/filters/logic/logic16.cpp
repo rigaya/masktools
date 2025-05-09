@@ -69,7 +69,7 @@ static void logic16_native_t(Byte *pDst, ptrdiff_t nDstPitch, const Byte *pSrc, 
 /* sse2 */
 
 template<int bits_per_pixel>
-static MT_FORCEINLINE __m128i add16_sse2(__m128i a, __m128i b) 
+static RGY_TARGET("sse4.1") MT_FORCEINLINE __m128i add16_sse2(__m128i a, __m128i b) 
 { 
 #pragma warning(disable: 4310)
   return bits_per_pixel==16 ? _mm_adds_epu16(a, b) : _mm_min_epu16(_mm_adds_epu16(a, b),_mm_set1_epi16((short)((1 << bits_per_pixel) - 1)));
@@ -94,14 +94,32 @@ static MT_FORCEINLINE __m128i xor16_sse2(const __m128i &a, const __m128i &b, con
     return _mm_xor_si128(a, b); 
 }
 
+static MT_FORCEINLINE __m128i _mm_min_epu16_sse2(__m128i a, __m128i b) {
+    alignas(64) static const uint32_t VAL[4] = { 0x80008000, 0x80008000, 0x80008000, 0x80008000 };
+#define LOAD_16BIT_0x8000 _mm_load_si128((__m128i *)VAL)
+    __m128i a1 = _mm_xor_si128(a, LOAD_16BIT_0x8000);
+    __m128i b1 = _mm_xor_si128(b, LOAD_16BIT_0x8000);
+    __m128i m1 = _mm_min_epi16(a1, b1);
+    return _mm_xor_si128(m1, LOAD_16BIT_0x8000);
+}
+
+static MT_FORCEINLINE __m128i _mm_max_epu16_sse2(__m128i a, __m128i b) {
+    alignas(64) static const uint32_t VAL[4] = { 0x80008000, 0x80008000, 0x80008000, 0x80008000 };
+#define LOAD_16BIT_0x8000 _mm_load_si128((__m128i *)VAL)
+    __m128i a1 = _mm_xor_si128(a, LOAD_16BIT_0x8000);
+    __m128i b1 = _mm_xor_si128(b, LOAD_16BIT_0x8000);
+    __m128i m1 = _mm_max_epi16(a1, b1);
+    return _mm_xor_si128(m1, LOAD_16BIT_0x8000);
+}
+
 template <decltype(nop16_sse2) opa, decltype(nop16_sse2) opb>
 static MT_FORCEINLINE __m128i min_t_sse2(const __m128i &a, const __m128i &b, const __m128i& th1, const __m128i& th2) { 
-    return _mm_min_epu16(opa(a, th1), opb(b, th2)); // !!min_epu16: SSE4
+    return _mm_min_epu16_sse2(opa(a, th1), opb(b, th2)); // !!min_epu16: SSE4
 }
 
 template <decltype(nop16_sse2) opa, decltype(nop16_sse2) opb>
 static MT_FORCEINLINE __m128i max_t_sse2(const __m128i &a, const __m128i &b, const __m128i& th1, const __m128i& th2) { 
-    return _mm_max_epu16(opa(a, th1), opb(b, th2)); // !!max_epu16: SSE4
+    return _mm_max_epu16_sse2(opa(a, th1), opb(b, th2)); // !!max_epu16: SSE4
 }
 
 

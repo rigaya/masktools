@@ -4,6 +4,7 @@
 #include "filter.h"
 #include "../common/utils/utils.h"
 
+#if defined(_WIN32) || defined(_WIN64)
 #if defined(FILTER_AVS_25)
 #include "avisynth-2_5.h"
 #elif defined(FILTER_AVS_26)
@@ -15,17 +16,21 @@
 #else
 #error FILTER_AVS_2x not defined
 #endif
+#else
+#include <avisynth.h>
+#include "rgy_osdep.h"
+#endif
 
 namespace Filtering { namespace Avisynth2x {
 
 /* plane conversion */
 template<typename T> Plane<T> ConvertTo(const PVideoFrame& frame, int nPlane, int nPixelSize);
 
-template<> static inline Plane<Byte> ConvertTo<Byte>(const PVideoFrame &frame, int nPlane, int nPixelSize)
+template<> inline Plane<Byte> ConvertTo<Byte>(const PVideoFrame &frame, int nPlane, int nPixelSize)
 {
    return Plane<Byte>( frame->GetWritePtr( nPlane ), frame->GetPitch( nPlane ), frame->GetRowSize( nPlane ), frame->GetHeight( nPlane ), nPixelSize, frame->GetHeight(nPlane));
 }
-template<> static inline Plane<const Byte> ConvertTo<const Byte>(const PVideoFrame &frame, int nPlane, int nPixelSize)
+template<> inline Plane<const Byte> ConvertTo<const Byte>(const PVideoFrame &frame, int nPlane, int nPixelSize)
 {
    return Plane<const Byte>( frame->GetReadPtr( nPlane ), frame->GetPitch( nPlane ), frame->GetRowSize( nPlane ), frame->GetHeight( nPlane ), nPixelSize, frame->GetHeight(nPlane));
 }
@@ -33,7 +38,7 @@ template<> static inline Plane<const Byte> ConvertTo<const Byte>(const PVideoFra
 #if defined(FILTER_AVS_25)
 template<typename T> Plane<T> ConvertInterleavedTo(const PVideoFrame& frame, int nPlane);
 
-template<> static inline Plane<Byte> ConvertInterleavedTo<Byte>(const PVideoFrame &frame, int nPlane)
+template<> inline Plane<Byte> ConvertInterleavedTo<Byte>(const PVideoFrame &frame, int nPlane)
 {
    const int nWidth = frame->GetRowSize() / (nPlane ? 2 : 1);
    const int nHeight = frame->GetHeight();
@@ -41,7 +46,7 @@ template<> static inline Plane<Byte> ConvertInterleavedTo<Byte>(const PVideoFram
    return Plane<Byte>( frame->GetWritePtr() + (nPlane == 2 ? nPitch * 3 / 4 : nPlane == 1 ? nPitch / 2 : 0), nPitch, nWidth, nHeight );
 }
 
-template<> static inline Plane<const Byte> ConvertInterleavedTo<const Byte>(const PVideoFrame &frame, int nPlane)
+template<> inline Plane<const Byte> ConvertInterleavedTo<const Byte>(const PVideoFrame &frame, int nPlane)
 {
    const int nWidth = frame->GetRowSize() / (nPlane ? 2 : 1);
    const int nHeight = frame->GetHeight();

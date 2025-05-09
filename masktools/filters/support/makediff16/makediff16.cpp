@@ -137,9 +137,9 @@ void makediff16_native_simd(Byte *pDst, ptrdiff_t nDstPitch, const Byte *pSrc, p
 }
 
 #define MAKE_TEMPLATES(bits_per_pixel) \
-template void makediff16_native_c<##bits_per_pixel##>(Byte *pDst, ptrdiff_t nDstPitch, const Byte *pSrc, ptrdiff_t nSrcPitch, int nWidth, int nHeight, int nOrigHeight); \
-template void makediff16_native_simd<CPUF_SSE2, ##bits_per_pixel##>(Byte *pDst, ptrdiff_t nDstPitch, const Byte *pSrc, ptrdiff_t nSrcPitch, int nWidth, int nHeight, int nOrigHeight); \
-template void makediff16_native_simd<CPUF_SSE4_1, ##bits_per_pixel##>(Byte *pDst, ptrdiff_t nDstPitch, const Byte *pSrc, ptrdiff_t nSrcPitch, int nWidth, int nHeight, int nOrigHeight);
+template void makediff16_native_c<bits_per_pixel>(Byte *pDst, ptrdiff_t nDstPitch, const Byte *pSrc, ptrdiff_t nSrcPitch, int nWidth, int nHeight, int nOrigHeight); \
+template void makediff16_native_simd<CPUF_SSE2, bits_per_pixel>(Byte *pDst, ptrdiff_t nDstPitch, const Byte *pSrc, ptrdiff_t nSrcPitch, int nWidth, int nHeight, int nOrigHeight); \
+template void makediff16_native_simd<CPUF_SSE4_1, bits_per_pixel>(Byte *pDst, ptrdiff_t nDstPitch, const Byte *pSrc, ptrdiff_t nSrcPitch, int nWidth, int nHeight, int nOrigHeight);
 
 MAKE_TEMPLATES(10)
 MAKE_TEMPLATES(12)
@@ -148,9 +148,9 @@ MAKE_TEMPLATES(16)
 #undef MAKE_TEMPLATES
 
 #define MAKE_EXPORTS(bits_per_pixel) \
-Processor16 *makediff16_native_##bits_per_pixel##_c = &makediff16_native_c<##bits_per_pixel##>; \
-Processor16 *makediff16_native_##bits_per_pixel##_sse2 = &makediff16_native_simd<CPU_SSE2,##bits_per_pixel##>; \
-Processor16 *makediff16_native_##bits_per_pixel##_sse4_1 = &makediff16_native_simd<CPU_SSE4_1, ##bits_per_pixel##>;
+Processor16 *makediff16_native_##bits_per_pixel##_c = &makediff16_native_c<bits_per_pixel>; \
+Processor16 *makediff16_native_##bits_per_pixel##_sse2 = &makediff16_native_simd<CPU_SSE2,bits_per_pixel>; \
+Processor16 *makediff16_native_##bits_per_pixel##_sse4_1 = &makediff16_native_simd<CPU_SSE4_1, bits_per_pixel>;
 
 MAKE_EXPORTS(10)
 MAKE_EXPORTS(12)

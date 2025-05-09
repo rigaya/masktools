@@ -129,7 +129,7 @@ public:
 
    static Signature filter_signature()
    {
-      Signature signature = "kmt_lut";
+      Signature signature("kmt_lut");
 
       signature.add(Parameter(TYPE_CLIP, "", false));
       signature.add(Parameter(String("x"), "expr", false));

@@ -102,7 +102,7 @@ public:
 
    static Signature filter_signature()
    {
-      Signature signature = "kmt_gradient";
+      Signature signature("kmt_gradient");
 
       signature.add(Parameter(TYPE_CLIP, "", false));
       signature.add(Parameter(TYPE_CLIP, "", false));

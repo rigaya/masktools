@@ -59,7 +59,7 @@ public:
 
     static Signature filter_signature()
     {
-        Signature signature = "kmt_hysteresis";
+        Signature signature("kmt_hysteresis");
 
         signature.add(Parameter(TYPE_CLIP, "", false));
         signature.add(Parameter(TYPE_CLIP, "", false));

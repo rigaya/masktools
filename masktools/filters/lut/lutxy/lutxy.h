@@ -118,7 +118,7 @@ public:
 
    static Signature filter_signature()
    {
-      Signature signature = "kmt_lutxy";
+      Signature signature("kmt_lutxy");
 
       signature.add(Parameter(TYPE_CLIP, "", false));
       signature.add(Parameter(TYPE_CLIP, "", false));

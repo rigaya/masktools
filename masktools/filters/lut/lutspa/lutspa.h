@@ -152,7 +152,7 @@ public:
 
    static Signature filter_signature()
    {
-      Signature signature = "kmt_lutspa";
+      Signature signature("kmt_lutspa");
 
       signature.add(Parameter(TYPE_CLIP, "", false));
       signature.add(Parameter(String("relative"), "mode", false));

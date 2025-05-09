@@ -32,7 +32,7 @@ namespace Filtering { namespace MaskTools { namespace Filters { namespace Mask {
     }
   }
 
-  static __forceinline __m128 simd_abs_diff_32(__m128 a, __m128 b) {
+  static MT_FORCEINLINE __m128 simd_abs_diff_32(__m128 a, __m128 b) {
     // maybe not optimal, mask could be generated 
     const __m128 absmask = _mm_castsi128_ps(_mm_set1_epi32(~(1 << 31))); // 0x7FFFFFFF
     return _mm_and_ps(_mm_sub_ps(a, b), absmask);

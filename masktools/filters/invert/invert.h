@@ -75,7 +75,7 @@ public:
 
    static Signature filter_signature()
    {
-      Signature signature = "kmt_invert";
+      Signature signature("kmt_invert");
 
       signature.add( Parameter( TYPE_CLIP, "", false) );
 

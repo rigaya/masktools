@@ -117,7 +117,7 @@ void mask_t(Byte *pDst, ptrdiff_t nDstPitch, const Byte *pSrc, ptrdiff_t nSrcPit
 }
 
 template <CpuFlags flags>
-static MT_FORCEINLINE __m128i simd_packed_abs_epi16(__m128i a, __m128i b) {
+static RGY_TARGET("ssse3") MT_FORCEINLINE __m128i simd_packed_abs_epi16(__m128i a, __m128i b) {
     if (flags >= CPU_SSSE3) {
         auto absa = _mm_abs_epi16(a);
         auto absb = _mm_abs_epi16(b);
@@ -132,7 +132,7 @@ static MT_FORCEINLINE __m128i simd_packed_abs_epi16(__m128i a, __m128i b) {
 }
 
 template <CpuFlags flags>
-static MT_FORCEINLINE __m128i simd_abs_diff_epu16(__m128i a, __m128i b) {
+static RGY_TARGET("ssse3") MT_FORCEINLINE __m128i simd_abs_diff_epu16(__m128i a, __m128i b) {
     if (flags >= CPU_SSSE3) {
         auto diff = _mm_sub_epi16(a, b);
         return _mm_abs_epi16(diff);

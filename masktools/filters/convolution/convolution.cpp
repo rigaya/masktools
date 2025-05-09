@@ -58,8 +58,8 @@ void compute_line_t(const pixel_t *pSrc, const Type *horizontal, const int nHori
 template<class Type, class pixel_t, int bits_per_pixel>
 pixel_t clamp(Type a);
 
-template<> Byte clamp<int, byte, 8>(int a) { return a < 0 ? 0 : ( a > 255 ? 255 : Byte(a)); }
-template<> Byte clamp<float, byte, 8>(float a) { return a < 0.0 ? 0 : ( a > 255.0 ? 255 : Byte(a+0.5) ); }
+template<> Byte clamp<int, Byte, 8>(int a) { return a < 0 ? 0 : ( a > 255 ? 255 : Byte(a)); }
+template<> Byte clamp<float, Byte, 8>(float a) { return a < 0.0 ? 0 : ( a > 255.0 ? 255 : Byte(a+0.5) ); }
 template<> Word clamp<int, Word, 10>(int a) { return a < 0 ? 0 : (a > 1023 ? 1023 : Word(a)); }
 template<> Word clamp<float, Word, 10>(float a) { return a < 0.0 ? 0 : (a > 1023 ? 1023 : Word(a + 0.5)); }
 template<> Word clamp<int, Word, 12>(int a) { return a < 0 ? 0 : (a > 4095 ? 4095 : Word(a)); }
@@ -205,10 +205,10 @@ void convolution_t(pixel_t *pDst, ptrdiff_t nDstPitch, const pixel_t *pSrc, ptrd
 
 namespace Filtering { namespace MaskTools { namespace Filters { namespace Convolution {
 
-Processor *convolution_i_s_c = &::convolution_t<int, struct NOP<int> , byte, 8>;
-Processor *convolution_f_s_c = &::convolution_t<float, struct NOP<float>, byte, 8 >;
-Processor *convolution_i_m_c = &::convolution_t<int, struct MIRROR<int>, byte, 8 >;
-Processor *convolution_f_m_c = &::convolution_t<float, struct MIRROR<float>, byte, 8>;
+Processor *convolution_i_s_c = &::convolution_t<int, struct NOP<int> , Byte, 8>;
+Processor *convolution_f_s_c = &::convolution_t<float, struct NOP<float>, Byte, 8 >;
+Processor *convolution_i_m_c = &::convolution_t<int, struct MIRROR<int>, Byte, 8 >;
+Processor *convolution_f_m_c = &::convolution_t<float, struct MIRROR<float>, Byte, 8>;
 
 Processor16 *convolution_i_s_10_c = &::convolution_t<int, struct NOP<int>, Word, 10>;
 Processor16 *convolution_f_s_10_c = &::convolution_t<float, struct NOP<float>, Word, 10 >;

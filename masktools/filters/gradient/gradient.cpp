@@ -10,7 +10,7 @@ typedef int (Distorsion16)(const Word *pSrc, ptrdiff_t nSrcPitch, const Word *pR
 typedef float (Distorsion_f)(const Float *pSrc, ptrdiff_t nSrcPitch, const Float *pRef, ptrdiff_t nRefPitch, int nPrecision);
 
 template<int nBlockSizeX, int nBlockSizeY> 
-int sad(const byte *pSrc, ptrdiff_t nSrcPitch, const byte *pRef, ptrdiff_t nRefPitch, int nPrecision)
+int sad(const Byte *pSrc, ptrdiff_t nSrcPitch, const Byte *pRef, ptrdiff_t nRefPitch, int nPrecision)
 {
   // pitches are already bit_depth corrected
    int nSad = 0;
@@ -49,7 +49,7 @@ float sad32(const float *pSrc, ptrdiff_t nSrcPitch, const float *pRef, ptrdiff_t
 }
 
 template<Distorsion distorsion, int nBlockSizeX, int nBlockSizeY> 
-void generic_c(byte *pDst, ptrdiff_t nDstPitch, const byte *pSrc, ptrdiff_t nSrcPitch, const byte *pRef, ptrdiff_t nRefPitch, int nWidth, int nHeight, int nX, int nY, int nMinimum, int nMaximum, int nPrecision)
+void generic_c(Byte *pDst, ptrdiff_t nDstPitch, const Byte *pSrc, ptrdiff_t nSrcPitch, const Byte *pRef, ptrdiff_t nRefPitch, int nWidth, int nHeight, int nX, int nY, int nMinimum, int nMaximum, int nPrecision)
 {
  
    int x, y;
@@ -61,7 +61,7 @@ void generic_c(byte *pDst, ptrdiff_t nDstPitch, const byte *pSrc, ptrdiff_t nSrc
    for ( y = 0; y < nHeight - nBlockSizeY * nPrecision + nPrecision; y++, pRef += nRefPitch, pDst += nDstPitch )
    {
       for ( x = 0; x < nWidth - nBlockSizeX * nPrecision + nPrecision; x++ )
-         pDst[x] = clip<byte, int>( (distorsion( pSrc, nSrcPitch, &pRef[x], nRefPitch, nPrecision ) - nMinimum) * max_pixel_value / (nMaximum - nMinimum) );
+         pDst[x] = clip<Byte, int>( (distorsion( pSrc, nSrcPitch, &pRef[x], nRefPitch, nPrecision ) - nMinimum) * max_pixel_value / (nMaximum - nMinimum) );
 
       for ( ; x < nWidth; x++ )
          pDst[x] = pDst[nWidth - nBlockSizeX * nPrecision + nPrecision - 1];

@@ -64,7 +64,7 @@ static inline Byte minimumThresholded(Byte a1, Byte a2, Byte a3, Byte a4, Byte a
     return static_cast<Byte>(minimum);
 }
 
-extern "C" static MT_FORCEINLINE __m128i inpand_operator_sse2(__m128i a, __m128i b) {
+static MT_FORCEINLINE __m128i inpand_operator_sse2(__m128i a, __m128i b) {
     return _mm_min_epu8(a, b);
 }
 

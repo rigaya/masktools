@@ -263,7 +263,7 @@ public:
 
    static Signature filter_signature()
    {
-      Signature signature = "kmt_lutf";
+      Signature signature("kmt_lutf");
 
       signature.add( Parameter( TYPE_CLIP, "", false) );
       signature.add( Parameter( TYPE_CLIP, "", false) );

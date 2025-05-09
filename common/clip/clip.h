@@ -3,6 +3,8 @@
 
 #include "../frame/frame.h"
 #include <memory>
+
+#if defined(_WIN32) || defined(_WIN64)
 #if defined(FILTER_AVS_25)
 #include "avisynth-2_5.h"
 #elif defined(FILTER_AVS_26)
@@ -13,6 +15,10 @@
 #pragma warning( pop )
 #else
 #error FILTER_AVS_2x not defined
+#endif
+#else
+#include <avisynth.h>
+#include "rgy_osdep.h"
 #endif
 
 namespace Filtering { 

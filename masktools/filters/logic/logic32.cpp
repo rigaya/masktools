@@ -1,7 +1,11 @@
 #include "logic.h"
 #include "../../common/simd.h"
+#include "../../common/base/filter.h"
 
 using namespace Filtering;
+
+typedef float Float;
+typedef void(Processor32)(Float *pDst, ptrdiff_t nDstPitch, const Float *pSrc1, ptrdiff_t nSrc1Pitch, int nWidth, int nHeight, Float nThresholdDestination, Float nThresholdSource);
 
 static MT_FORCEINLINE Float add(Float a, Float b) { return a + b; }
 static MT_FORCEINLINE Float sub(Float a, Float b) { return a - b; }
@@ -9,7 +13,7 @@ static MT_FORCEINLINE Float nop(Float a, Float b) { UNUSED(b); return a; }
 
 #define CAST_U32(x) (*reinterpret_cast<unsigned char *>(&x))
 
-static MT_FORCEINLINE float cast_to_float(uint32_t x)
+static MT_FORCEINLINE __attribute__((optimize("no-strict-aliasing"))) float cast_to_float(uint32_t x)
 {
   uint32_t tmp = x; return *reinterpret_cast<float *>(&tmp);
 }

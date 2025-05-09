@@ -90,6 +90,7 @@ namespace Filtering { namespace MaskTools { namespace Filters { namespace Merge 
    }
 
    template <MemoryMode mem_mode>
+   RGY_TARGET("sse3")
    void merge32_luma_420_sse2_t(Byte *pDst, ptrdiff_t nDstPitch, const Byte *pSrc1, ptrdiff_t nSrc1Pitch,
      const Byte *pMask, ptrdiff_t nSrc2Pitch, int nWidth, int nHeight)
    {
@@ -131,6 +132,7 @@ namespace Filtering { namespace MaskTools { namespace Filters { namespace Merge 
    }
 
    template <MemoryMode mem_mode>
+   RGY_TARGET("sse3")
    void merge32_luma_422_sse2_t(Byte *pDst, ptrdiff_t nDstPitch, const Byte *pSrc1, ptrdiff_t nSrc1Pitch,
      const Byte *pMask, ptrdiff_t nSrc2Pitch, int nWidth, int nHeight)
    {

@@ -92,7 +92,7 @@ public:
 
     static Signature filter_signature()
     {
-        Signature signature = "kmt_average";
+        Signature signature("kmt_average");
 
         signature.add(Parameter(TYPE_CLIP, "", false));
         signature.add(Parameter(TYPE_CLIP, "", false));

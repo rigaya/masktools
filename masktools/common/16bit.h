@@ -16,4 +16,4 @@ MT_FORCEINLINE void write_word_stacked(Byte *pMsb, Byte *pLsb, int x, Word value
 
 }
 
-#endif __Mt_16bit_H__
+#endif //__Mt_16bit_H__
