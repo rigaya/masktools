@@ -18,21 +18,21 @@ masktools_filters_lib = static_library('masktools_filters',
   masktools_filters_sources,
   include_directories : [include_directories('../../..', '../../../KUtil', '../../../common'), masktools_inc],
   dependencies : [avisynth_dep, threads_dep, masktools_common_dep],
-  cpp_args : cpp_args + ['-Wno-reorder'],
+  cpp_args : cpp_args,
 )
 
 masktools_filters_avx_lib = static_library('masktools_filters_avx',
   masktools_filters_avx_sources,
   include_directories : [include_directories('../../..', '../../../KUtil', '../../../common'), masktools_inc],
   dependencies : [avisynth_dep, threads_dep, masktools_common_dep],
-  cpp_args : cpp_args + avx_args + ['-Wno-reorder'],
+  cpp_args : cpp_args + avx_args,
 )
 
 masktools_filters_avx2_lib = static_library('masktools_filters_avx2',
   masktools_filters_avx2_sources,
   include_directories : [include_directories('../../..', '../../../KUtil', '../../../common'), masktools_inc],
   dependencies : [avisynth_dep, threads_dep, masktools_common_dep],
-  cpp_args : cpp_args + avx2_args + ['-Wno-reorder'],
+  cpp_args : cpp_args + avx2_args,
 )
 
 masktools_filters_dep = declare_dependency(

@@ -16,7 +16,7 @@ masktools_common_lib = static_library('masktools_common',
   masktools_common_sources,
   include_directories : [include_directories('../../..', '../../../KUtil', '../../../common'), masktools_inc],
   dependencies : [avisynth_dep, threads_dep],
-  cpp_args : cpp_args + ['-Wno-reorder'],
+  cpp_args : cpp_args,
 )
 
 masktools_common_dep = declare_dependency(

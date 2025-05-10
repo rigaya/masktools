@@ -9,7 +9,7 @@ masktools_helpers_lib = static_library('masktools_helpers',
   masktools_helpers_sources,
   include_directories : [include_directories('../../..', '../../../KUtil', '../../../common'), masktools_inc],
   dependencies : [avisynth_dep, cuda_dep, threads_dep, masktools_common_dep],
-  cpp_args : cpp_args + ['-Wno-reorder'],
+  cpp_args : cpp_args,
 )
 
 masktools_helpers_dep = declare_dependency(
