@@ -136,7 +136,7 @@ Colorspace AVSColorspaceToColorspace(int pixel_type)
 
 
 
-#else if defined(FILTER_AVS_25)
+#elif defined(FILTER_AVS_25)
    case VideoInfo::CS_YUY2: return COLORSPACE_YV16;
 #endif
 
