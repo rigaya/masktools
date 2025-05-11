@@ -13,7 +13,11 @@ static MT_FORCEINLINE Float nop(Float a, Float b) { UNUSED(b); return a; }
 
 #define CAST_U32(x) (*reinterpret_cast<unsigned char *>(&x))
 
-static MT_FORCEINLINE __attribute__((optimize("no-strict-aliasing"))) float cast_to_float(uint32_t x)
+static MT_FORCEINLINE
+#if defined(__GNUC__)
+__attribute__((optimize("no-strict-aliasing")))
+#endif
+float cast_to_float(uint32_t x)
 {
   uint32_t tmp = x; return *reinterpret_cast<float *>(&tmp);
 }
