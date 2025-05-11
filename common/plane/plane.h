@@ -1,6 +1,7 @@
 #ifndef __Common_Plane_H__
 #define __Common_Plane_H__
 
+#include <cstddef>
 #include "../utils/utils.h"
 
 namespace Filtering {
